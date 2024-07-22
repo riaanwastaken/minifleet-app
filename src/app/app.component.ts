@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
-
 
 
 @Component({
@@ -13,12 +12,28 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'minifleet-web-app';
   users$: Observable<any[]>;
+
+
 
   constructor(private firestore: Firestore) {
     const usersCollection = collection(this.firestore, 'main/app/users');
     this.users$ = collectionData(usersCollection);
   }
+
+
+
+  ngOnInit() {
+    console.log(window);
+  }
+
+
+
+
+
+
+
+
 }
