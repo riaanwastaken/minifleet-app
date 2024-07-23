@@ -1,6 +1,6 @@
 FROM httpd:2.4
 RUN mkdir -p /usr/local/apache2/minifleet-web-app/
-COPY ./dist/minifleet-web-app/ usr/local/apache2/minifleet-web-app/
+COPY ./dist/minifleet-web-app/browser /usr/local/apache2/minifleet-web-app/
 COPY .htaccess /usr/local/apache2/minifleet-web-app
 COPY httpd.conf /usr/local/apache2/conf/httpd.conf
 RUN mkdir -p /usr/local/apache2/conf/sites/
