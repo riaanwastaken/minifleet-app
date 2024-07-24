@@ -15,7 +15,7 @@ steps:
   
   - name: 'node:21.7'
     entrypoint: 'npm'
-    args: [ 'install' ]
+    args:  [ 'install', '--force' ]
     dir: 'src/minifleet-web-app'
 
   - id: 'build-front'
