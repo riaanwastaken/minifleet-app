@@ -1,0 +1,49 @@
+steps:
+  - id: 'download-cached-npm-dependencies'
+    name: gcr.io/cloud-builders/gsutil
+    dir: 'src/minifleet-web-app'
+    entrypoint: bash
+    args:
+      - "-c"
+      - |
+        gsutil cp gs://npm-cache-dependencies-${_ENV}/app-web/npm-dependencies.tgz npm-dependencies.tgz || exit 0
+        tar -zxf npm-dependencies.tgz --directory / || exit 0
+  
+  - name: 'node:21.7'
+    entrypoint: 'npm'
+    args: [ 'install' ]
+    dir: 'src/minifleet-web-app'
+
+  - id: 'build-front'
+    name: 'node:21.7'
+    entrypoint: 'npm'
+    args: [ 'run', 'build', '--', '${_ENVIRONMENT}', '--base-href=/']
+    dir: 'src/minifleet-web-app'
+
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/web-app:$SHORT_SHA", "-t", "gcr.io/$PROJECT_ID/web-app:latest", "./src/minifleet-web-app/"]
+
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/web-app:latest"]
+
+  - name: "gcr.io/cloud-builders/gke-deploy"
+    args:
+    - run
+    - --filename=./src/minifleet-web-app/${_K8S_DEPLOYMENT_FILE}
+    - --image=gcr.io/$PROJECT_ID/web-app:latest
+    - --location=europe-west2-a
+    - --cluster=cluster-1
+  
+  - id: 'upload-cached-npm-dependencies'
+    waitFor: ['build-front']
+    name: gcr.io/cloud-builders/gsutil
+    entrypoint: bash
+    dir: 'src/minifleet-web-app'
+    args:
+      - '-c'
+      - |
+        tar -zcf npm-dependencies.tgz ./node_modules
+        gsutil cp npm-dependencies.tgz gs://npm-cache-dependencies-${_ENV}/app-web/npm-dependencies.tgz
+
+images: ["gcr.io/$PROJECT_ID/web-app:$SHORT_SHA"]
+timeout: 2000s
