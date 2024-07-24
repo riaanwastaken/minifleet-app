@@ -21,16 +21,16 @@ steps:
     dir: 'src/minifleet-web-app'
 
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "gcr.io/$PROJECT_ID/web-app:$SHORT_SHA", "-t", "gcr.io/$PROJECT_ID/web-app:latest", "./src/minifleet-web-app/"]
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/minifleet-web-app:$SHORT_SHA", "-t", "gcr.io/$PROJECT_ID/minifleet-web-app:latest", "./src/minifleet-web-app/"]
 
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/$PROJECT_ID/web-app:latest"]
+    args: ["push", "gcr.io/$PROJECT_ID/minifleet-web-app:latest"]
 
   - name: "gcr.io/cloud-builders/gke-deploy"
     args:
     - run
     - --filename=./src/minifleet-web-app/${_K8S_DEPLOYMENT_FILE}
-    - --image=gcr.io/$PROJECT_ID/web-app:latest
+    - --image=gcr.io/$PROJECT_ID/minifleet-web-app:latest
     - --location=europe-west2-a
     - --cluster=cluster-1
   
@@ -45,5 +45,5 @@ steps:
         tar -zcf npm-dependencies.tgz ./node_modules
         gsutil cp npm-dependencies.tgz gs://npm-cache-dependencies-${_ENV}/app-web/npm-dependencies.tgz
 
-images: ["gcr.io/$PROJECT_ID/web-app:$SHORT_SHA"]
+images: ["gcr.io/$PROJECT_ID/minifleet-web-app:$SHORT_SHA"]
 timeout: 2000s
