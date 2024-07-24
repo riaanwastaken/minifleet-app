@@ -1,3 +1,7 @@
+options:
+  logging: CLOUD_LOGGING_ONLY  # or NONE if you don't want to store logs
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+
 steps:
   - id: 'download-cached-npm-dependencies'
     name: gcr.io/cloud-builders/gsutil
@@ -47,3 +51,4 @@ steps:
 
 images: ["gcr.io/$PROJECT_ID/minifleet-web-app:$SHORT_SHA"]
 timeout: 2000s
+serviceAccount: projects/extreme-torch-424713-g5/serviceAccounts/cloud-build-admin@extreme-torch-424713-g5.iam.gserviceaccount.com
