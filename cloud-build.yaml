@@ -25,7 +25,7 @@ steps:
     dir: 'minifleet-web-app'
 
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "gcr.io/$PROJECT_ID/minifleet-web-app:$SHORT_SHA", "-t", "gcr.io/$PROJECT_ID/minifleet-web-app:latest", "./minifleet-web-app/"]
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/minifleet-web-app:$SHORT_SHA", "-t", "gcr.io/$PROJECT_ID/minifleet-web-app:latest", "."]
 
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/$PROJECT_ID/minifleet-web-app:latest"]
