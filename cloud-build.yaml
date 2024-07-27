@@ -39,15 +39,21 @@ steps:
     - --cluster=cluster-1
   
   - id: 'upload-cached-npm-dependencies'
-    waitFor: ['build-front']
-    name: gcr.io/cloud-builders/gsutil
-    entrypoint: bash
-    dir: 'minifleet-web-app'
-    args:
-      - '-c'
-      - |
-        tar -zcf npm-dependencies.tgz ./node_modules
-        gsutil cp npm-dependencies.tgz gs://npm-cache-dependencies-${_ENV}/app-web/npm-dependencies.tgz
+  waitFor: ['build-front']
+  name: gcr.io/cloud-builders/gsutil
+  entrypoint: bash
+  dir: 'minifleet-web-app'
+  args:
+    - '-c'
+    - |
+      if [ -d "./node_modules" ]; then
+        tar -zcf npm-dependencies.tgz ./node_modules;
+        gsutil cp npm-dependencies.tgz gs://npm-cache-dependencies-${_ENV}/app-web/npm-dependencies.tgz;
+      else
+        echo "node_modules directory does not exist";
+        exit 1;
+      fi
+
 
 images: ["gcr.io/$PROJECT_ID/minifleet-web-app:$SHORT_SHA"]
 timeout: 2000s
