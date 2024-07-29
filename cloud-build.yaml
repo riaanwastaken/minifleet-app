@@ -48,7 +48,7 @@ steps:
     - |
       if [ -d "./node_modules" ]; then
         tar -zcf npm-dependencies.tgz ./node_modules;
-        gsutil cp npm-dependencies.tgz gs://npm-cache-dependencies-${_ENV}/app-web/npm-dependencies.tgz;
+        gsutil cp npm-dependencies.tgz gs://npm-cache-dependencies-mini-${_ENV}/app-web/npm-dependencies.tgz;
       else
         echo "node_modules directory does not exist";
         exit 1;
