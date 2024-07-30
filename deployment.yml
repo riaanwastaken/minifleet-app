@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: minifleet-web-app
-        image: gcr.io/extreme-torch-424713-g5/web-app:latest
+        image: gcr.io/extreme-torch-424713-g5/minifleet-web-app:latest
         resources:
           requests:
             memory: "64Mi"
