@@ -35,5 +35,5 @@ spec:
     protocol: TCP
     port: 60001
     targetPort: 80
-    nodePort: 30116
+    
     
