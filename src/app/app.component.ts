@@ -16,8 +16,6 @@ export class AppComponent implements OnInit{
   title = 'minifleet-web-app';
   users$: Observable<any[]>;
 
-
-
   constructor(private firestore: Firestore) {
     const usersCollection = collection(this.firestore, 'main/app/users');
     this.users$ = collectionData(usersCollection);
