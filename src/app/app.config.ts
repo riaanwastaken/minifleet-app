@@ -22,5 +22,3 @@ export const appConfig: ApplicationConfig = {
     provideFirestore(() => getFirestore()),
   ]
 };
-
-// Test commit reverse
