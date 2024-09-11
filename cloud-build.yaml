@@ -35,8 +35,8 @@ steps:
     - run
     - --filename=./${_K8S_DEPLOYMENT_FILE}
     - --image=gcr.io/$PROJECT_ID/minifleet-web-app:latest
-    - --location=europe-west2-a
-    - --cluster=cluster-1
+    - --location=us-west-1
+    - --cluster=autopilot-cluster-1
   
   - id: 'upload-cached-npm-dependencies'
     waitFor: ['build-front']
