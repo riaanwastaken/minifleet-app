@@ -27,13 +27,13 @@ kind: Service
 metadata:
   name: minifleet-web-app-service
 spec:
-  type: NodePort
+  type: LoadBalancer  # Changed from NodePort to LoadBalancer
   selector:
     app: minifleet-web-app
   ports:
   - name: http
     protocol: TCP
-    port: 60001
+    port: 80  # Changed from 60001 to 80 for simplicity
     targetPort: 80
     
     
